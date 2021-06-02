@@ -53,8 +53,7 @@ public class FirstRatings
      */
     public ArrayList<String> getAllDirectors()
     {
-        ArrayList<String> theDirectors = new ArrayList<>( allDirectors.keySet() );
-        return theDirectors;
+        return new ArrayList<>( allDirectors.keySet() );
     }
 
     private void addToAllDirectors( Movie movie )
@@ -87,7 +86,7 @@ public class FirstRatings
         int maximumNumMovies = 0;
 
         HashMap<String, HashSet<Movie>> directors = allDirectors;
-
+        String directorName =null;
         // look at every director
 
         for ( String director : directors.keySet() )
@@ -100,8 +99,11 @@ public class FirstRatings
             {
                 // set the maximumNumMovies to theirs
                 maximumNumMovies = currNumOfMovies;
+                directorName = director;
             }
         }
+
+        System.out.println(directorName + " directed more films than any other director");
         return maximumNumMovies;
     }
 
@@ -190,13 +192,14 @@ public class FirstRatings
     {
         int maximumNumberOfRatings = 0;
         HashMap<Integer, ArrayList<String>> ratingsNum = new HashMap<>();
-
+        String mostRater = null;
         for ( Rater rater : raters )
         {
             int currRatings = rater.numRatings();
             if ( currRatings > maximumNumberOfRatings )
             {
                 maximumNumberOfRatings = currRatings;
+                mostRater = rater.getID();
             }
             if ( ratingsNum.containsKey( currRatings ) )
             {
@@ -208,6 +211,7 @@ public class FirstRatings
 
             }
         }
+        System.out.println(mostRater + " rated the most number of movies");
         System.out.println( "Raters with the same maximum number of ratings " + ratingsNum.get( maximumNumberOfRatings ) );
         return maximumNumberOfRatings;
     }
@@ -220,6 +224,8 @@ public class FirstRatings
     {
         int numberOfRatings = 0;
         int numberOfDifferentMoviesRatedByRater = 0;
+        HashSet<String> moviesRated = new HashSet<>();
+
         for ( Rater rater : raters )
         {
             if ( !( rater.getRating( movieId ) == -1 ) )
@@ -227,6 +233,8 @@ public class FirstRatings
                 numberOfRatings += 1;
                 for ( String currMovieId : rater.getItemsRated() )
                 {
+                    moviesRated.add(currMovieId.trim() );
+
                     if ( !currMovieId.equals( movieId ) )
                     {
                         numberOfDifferentMoviesRatedByRater += 1;
@@ -234,6 +242,7 @@ public class FirstRatings
                 }
             }
         }
+        System.out.println(moviesRated.size() +" different movies have been rated by all these raters.");
         System.out.println( numberOfDifferentMoviesRatedByRater + " other movies rated" );
         return numberOfRatings;
     }

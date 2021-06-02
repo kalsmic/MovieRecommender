@@ -86,6 +86,10 @@ class FirstRatingsTest
         String raterId = "2";
         int numberOfRatings = firstRatingsShort.getNumOfRatingsForRater(raterId);
         assertEquals( 3, numberOfRatings);
+
+        raterId = "193";
+        numberOfRatings = firstRatingsFull.getNumOfRatingsForRater(raterId);
+        assertEquals( 119, numberOfRatings);
     }
 
     @Test
@@ -94,6 +98,8 @@ class FirstRatingsTest
 
         int maximumNumberOfRatings = firstRatingsShort.getMaximumNumOfRatingsByAnyRater();
         assertEquals( 3, maximumNumberOfRatings);
+        maximumNumberOfRatings = firstRatingsFull.getMaximumNumOfRatingsByAnyRater();
+        assertEquals( 314, maximumNumberOfRatings);
     }
 
 
@@ -103,6 +109,9 @@ class FirstRatingsTest
         String movieId = "1798709";
         int numberOfRatings = firstRatingsShort.getNumOfRatingsForMovie(movieId);
         assertEquals( 4, numberOfRatings);
+
+        numberOfRatings = firstRatingsFull.getNumOfRatingsForMovie(movieId);
+        assertEquals( 38, numberOfRatings);
     }
 
 }
