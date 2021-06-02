@@ -140,13 +140,12 @@ class FirstRatingsTest
         String movieId = "1798709";
         int numberOfRatings = firstRatingsShort.getNumOfRatingsForMovie( movieId );
         assertEquals( 4, numberOfRatings );
-        assertTrue( outContent.toString().contains( "3 different movies have been rated by all these raters." ) );
-        assertTrue( outContent.toString().contains( "4 other movies rated" ) );
+        assertTrue( outContent.toString().contains( "4 unique rated movies" ) );
 
+        //
         numberOfRatings = firstRatingsFull.getNumOfRatingsForMovie( movieId );
         assertEquals( 38, numberOfRatings );
-        assertTrue( outContent.toString().contains( "1321 different movies have been rated by all these raters." ) );
-        assertTrue( outContent.toString().contains( "2414 other movies rated" ) );
+        assertTrue( outContent.toString().contains( "3143 unique rated movies" ) );
     }
 
 }

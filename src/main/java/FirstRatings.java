@@ -223,27 +223,19 @@ public class FirstRatings
     public int getNumOfRatingsForMovie( String movieId )
     {
         int numberOfRatings = 0;
-        int numberOfDifferentMoviesRatedByRater = 0;
-        HashSet<String> moviesRated = new HashSet<>();
+        HashSet<String> ratedMovies = new HashSet<>();
 
         for ( Rater rater : raters )
         {
-            if ( !( rater.getRating( movieId ) == -1 ) )
+            if (! rater.getItemsRated().isEmpty() && !( rater.getRating( movieId ) == -1 ) )
             {
-                numberOfRatings += 1;
-                for ( String currMovieId : rater.getItemsRated() )
-                {
-                    moviesRated.add(currMovieId.trim() );
 
-                    if ( !currMovieId.equals( movieId ) )
-                    {
-                        numberOfDifferentMoviesRatedByRater += 1;
-                    }
-                }
+                numberOfRatings += 1;
             }
+            ratedMovies.addAll( rater.getItemsRated() );
+
         }
-        System.out.println(moviesRated.size() +" different movies have been rated by all these raters.");
-        System.out.println( numberOfDifferentMoviesRatedByRater + " other movies rated" );
+        System.out.println( ratedMovies.size() + " unique rated movies" );
         return numberOfRatings;
     }
 
