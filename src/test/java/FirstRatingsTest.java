@@ -1,10 +1,14 @@
 import models.Movie;
 import models.Rater;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.PrintStream;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -13,14 +17,18 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @TestInstance( TestInstance.Lifecycle.PER_CLASS )
 class FirstRatingsTest
 {
+    private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+    private final ByteArrayOutputStream errContent = new ByteArrayOutputStream();
+    private final PrintStream originalOut = System.out;
+    private final PrintStream originalErr = System.err;
 
     FirstRatings firstRatingsShort;
     ArrayList<Movie> shortMovieCollection;
     ArrayList<Rater> shortMovieCollectionRatings;
 
-        FirstRatings firstRatingsFull;
-        ArrayList<Movie> fullMovieCollection;
-        ArrayList<Rater> fullMovieCollectionRatings;
+    FirstRatings firstRatingsFull;
+    ArrayList<Movie> fullMovieCollection;
+    ArrayList<Rater> fullMovieCollectionRatings;
 
     @BeforeAll
     void setUp() throws IOException
@@ -36,6 +44,20 @@ class FirstRatingsTest
         fullMovieCollectionRatings = firstRatingsFull.loadRaters( "data/ratings.csv" );
     }
 
+    @BeforeEach
+    public void setUpStreams()
+    {
+        System.setOut( new PrintStream( outContent ) );
+        System.setErr( new PrintStream( errContent ) );
+    }
+
+    @AfterEach
+    public void restoreStreams()
+    {
+        System.setOut( originalOut );
+        System.setErr( originalErr );
+    }
+
     @Test
     public void testLoadMovies()
     {
@@ -47,7 +69,11 @@ class FirstRatingsTest
     public void testMaximumNumberOfMoviesDirectedByAnyDirector()
     {
         assertEquals( 1, firstRatingsShort.maximumNumberOfMoviesByAnyDirector() );
+        assertTrue( outContent.toString().contains( "Charles Chaplin directed more films than any other director" ) );
+
         assertEquals( 23, firstRatingsFull.maximumNumberOfMoviesByAnyDirector() );
+        assertTrue( outContent.toString().contains( "Woody Allen directed more films than any other director" ) );
+
     }
 
 
@@ -97,9 +123,14 @@ class FirstRatingsTest
     {
 
         int maximumNumberOfRatings = firstRatingsShort.getMaximumNumOfRatingsByAnyRater();
-        assertEquals( 3, maximumNumberOfRatings);
+        assertEquals( 3, maximumNumberOfRatings );
+        assertTrue( outContent.toString().contains( "2 rated the most number of movies" ) );
+        assertTrue( outContent.toString().contains( "Raters with the same maximum number of ratings [2]" ) );
+
         maximumNumberOfRatings = firstRatingsFull.getMaximumNumOfRatingsByAnyRater();
-        assertEquals( 314, maximumNumberOfRatings);
+        assertEquals( 314, maximumNumberOfRatings );
+        assertTrue( outContent.toString().contains( "735 rated the most number of movies" ) );
+        assertTrue( outContent.toString().contains( "Raters with the same maximum number of ratings [735]" ) );
     }
 
 
@@ -107,11 +138,15 @@ class FirstRatingsTest
     public void testNumOfRatingsForMovie()
     {
         String movieId = "1798709";
-        int numberOfRatings = firstRatingsShort.getNumOfRatingsForMovie(movieId);
-        assertEquals( 4, numberOfRatings);
+        int numberOfRatings = firstRatingsShort.getNumOfRatingsForMovie( movieId );
+        assertEquals( 4, numberOfRatings );
+        assertTrue( outContent.toString().contains( "3 different movies have been rated by all these raters." ) );
+        assertTrue( outContent.toString().contains( "4 other movies rated" ) );
 
-        numberOfRatings = firstRatingsFull.getNumOfRatingsForMovie(movieId);
-        assertEquals( 38, numberOfRatings);
+        numberOfRatings = firstRatingsFull.getNumOfRatingsForMovie( movieId );
+        assertEquals( 38, numberOfRatings );
+        assertTrue( outContent.toString().contains( "1321 different movies have been rated by all these raters." ) );
+        assertTrue( outContent.toString().contains( "2414 other movies rated" ) );
     }
 
 }
