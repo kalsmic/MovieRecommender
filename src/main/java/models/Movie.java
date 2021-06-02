@@ -3,14 +3,20 @@
  */
 package models;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+
 // An immutable passive data object (PDO) to represent item data
 public class Movie
 {
     private final String id;
     private final String title;
     private final int year;
-    private final String genres;
-    private String director;
+    public static HashMap<String, HashSet<Movie>> allDirectors = new HashMap<>();
+    ArrayList<String> directors;
+    private ArrayList<String> genres;
+
     private String country;
     private String poster;
     private int minutes;
@@ -27,33 +33,52 @@ public class Movie
         id = anID.trim();
         title = aTitle.trim();
         year = Integer.parseInt( aYear.trim() );
-        genres = theGenres;
+        setGenres( theGenres );
+
     }
 
     /**
-     * @param anID       is a String variable representing the IMDB ID of the movie
-     * @param aTitle     is a String variable for the movie’s title
-     * @param aYear      is an integer representing the year
-     * @param theGenres  is one String of one or more genres separated by commas
-     * @param aDirector  is one String of one or more directors of the movie separated by commas
-     * @param aCountry   is one String of one or more countries the film was made in, separated by commas
-     * @param aPoster    is a String that is a link to an image of the movie poster if one exists, or “N/A” if no poster
-     *                   exists
-     * @param theMinutes is an integer for the length of the movie
+     * @param anID         is a String variable representing the IMDB ID of the movie
+     * @param aTitle       is a String variable for the movie’s title
+     * @param aYear        is an integer representing the year
+     * @param theGenres    is one String of one or more genres separated by commas
+     * @param theDirectors is one String of one or more directors of the movie separated by commas
+     * @param aCountry     is one String of one or more countries the film was made in, separated by commas
+     * @param aPoster      is a String that is a link to an image of the movie poster if one exists, or “N/A” if no
+     *                     poster exists
+     * @param theMinutes   is an integer for the length of the movie
      */
-    public Movie( String anID, String aTitle, String aYear, String theGenres, String aDirector, String aCountry, String aPoster, int theMinutes )
+    public Movie( String anID, String aTitle, String aYear, String theGenres, String theDirectors, String aCountry, String aPoster, int theMinutes )
     {
         // just in case data file contains extra whitespace
         id = anID.trim();
         title = aTitle.trim();
         year = Integer.parseInt( aYear.trim() );
-        genres = theGenres;
-        director = aDirector;
+        setGenres( theGenres );
+        directors = new ArrayList<>();
+        setAllDirectors( theDirectors );
         country = aCountry;
         poster = aPoster;
         minutes = theMinutes;
     }
 
+    /**
+     * @return one String of one or more genres separated by commas
+     */
+    public String getGenres()
+    {
+        return genres.toString();
+    }
+
+    private void setGenres( String genres )
+    {
+        this.genres = new ArrayList<>();
+
+        for ( String genre : genres.split( "," ) )
+        {
+            this.genres.add( genre.toLowerCase() );
+        }
+    }
 
     /**
      * @return a String variable representing the IMDB ID of the movie
@@ -81,11 +106,12 @@ public class Movie
     }
 
     /**
-     * @return one String of one or more genres separated by commas
+     * @return one String of one or more directors of the movie separated by commas
      */
-    public String getGenres()
+    public ArrayList<String> getAllDirectors()
     {
-        return genres;
+        ArrayList<String> theDirectors = new ArrayList<>( Movie.allDirectors.keySet() );
+        return theDirectors;
     }
 
     /**
@@ -96,12 +122,30 @@ public class Movie
         return country;
     }
 
-    /**
-     * @return one String of one or more directors of the movie separated by commas
-     */
-    public String getDirector()
+    private void setAllDirectors( String directors )
     {
-        return director;
+
+
+        for ( String director : directors.split( "," ) )
+        {
+            director = director.trim();
+            // check if director exists
+            if ( allDirectors.containsKey( director ) )
+            {
+                // add movie to directors movies
+
+                allDirectors.get( director ).add( this );
+            }
+            else
+            {
+                // add director and movie
+                HashSet<Movie> newMovie = new HashSet<>();
+                newMovie.add( this );
+                allDirectors.put( director, newMovie );
+            }
+            this.directors.add( director );
+        }
+
     }
 
     /**
@@ -130,4 +174,5 @@ public class Movie
         result += ", genres= " + genres + "]";
         return result;
     }
+
 }
