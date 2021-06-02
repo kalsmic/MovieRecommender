@@ -85,4 +85,20 @@ public class SecondRatings
         }
         return null;
     }
+
+    /**
+     *
+     * @param movieTitle is the title of movie to seach for
+     * @return the a String Id of the movie if found otherwise return "NO SUCH TITLE"
+     */
+    public String getMovieIdByTitle( String movieTitle )
+    {
+        for(Movie movie: myMovies){
+            if(movie.getTitle().equals( movieTitle )){
+                return movie.getID();
+            }
+        }
+        return "NO SUCH TITLE";
+
+    }
 }

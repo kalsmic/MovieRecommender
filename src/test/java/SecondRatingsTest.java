@@ -59,9 +59,17 @@ class SecondRatingsTest
     {
         String movieId = "0006414";
         String movieTitle = secondRatingsShort.getTitle(movieId );
-        assertTrue( movieTitle.equals("Behind the Screen"));
-
+        assertEquals( "Behind the Screen", movieTitle );
     }
+
+    @Test
+    public void testGetMovieIdByTitle()
+    {
+        String movieTitle ="Behind the Screen";
+        String movieId = secondRatingsShort.getMovieIdByTitle(movieTitle );
+        assertEquals( "0006414", movieId );
+    }
+
 
 
 
