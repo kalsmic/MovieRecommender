@@ -13,16 +13,22 @@ public class FirstRatings
 {
     ArrayList<Movie> movies;
     ArrayList<Rater> raters;
+    HashMap<String, HashSet<Movie>> allDirectors;
+
 
     public FirstRatings()
     {
         movies = new ArrayList<>();
         raters = new ArrayList<>();
+        allDirectors = new HashMap<>()
+        {
+        };
 
     }
 
     public ArrayList<Movie> loadMovies( String fileName ) throws IOException
     {
+
         CSVParser csvParser = (CSVParser) new FileHelper( fileName ).getCSVParser();
 
         for ( CSVRecord csvRecord : csvParser )
@@ -36,9 +42,41 @@ public class FirstRatings
             String poster = csvRecord.get( "poster" );
             int minutes = Integer.parseInt( csvRecord.get( "minutes" ) );
             Movie movie = new Movie( id, title, year, genres, director, country, poster, minutes );
+            addToAllDirectors( movie );
             movies.add( movie );
         }
         return movies;
+    }
+
+    /**
+     * @return one String of one or more directors of the movie separated by commas
+     */
+    public ArrayList<String> getAllDirectors()
+    {
+        ArrayList<String> theDirectors = new ArrayList<>( allDirectors.keySet() );
+        return theDirectors;
+    }
+
+    private void addToAllDirectors( Movie movie )
+    {
+
+        for ( String director : movie.getDirectors() )
+        {
+            // check if director exists
+            if ( allDirectors.containsKey( director ) )
+            {
+                // add movie to directors movies
+                allDirectors.get( director ).add( movie );
+            }
+            else
+            {
+                // add director and movie
+                HashSet<Movie> newMovie = new HashSet<>();
+                newMovie.add( movie );
+                allDirectors.put( director, newMovie );
+            }
+        }
+
     }
 
     /**
@@ -48,7 +86,7 @@ public class FirstRatings
     {
         int maximumNumMovies = 0;
 
-        HashMap<String, HashSet<Movie>> directors = Movie.allDirectors;
+        HashMap<String, HashSet<Movie>> directors = allDirectors;
 
         // look at every director
 
@@ -170,8 +208,7 @@ public class FirstRatings
 
             }
         }
-        System.out.println( "Raters with the same maximum number of ratings " +
-                ratingsNum.get( maximumNumberOfRatings ) );
+        System.out.println( "Raters with the same maximum number of ratings " + ratingsNum.get( maximumNumberOfRatings ) );
         return maximumNumberOfRatings;
     }
 
@@ -199,5 +236,22 @@ public class FirstRatings
         }
         System.out.println( numberOfDifferentMoviesRatedByRater + " other movies rated" );
         return numberOfRatings;
+    }
+
+    /**
+     * @param minMinutes is the minimum movie length
+     * @return the number of movies are greater than minMinutes in length
+     */
+    public int getNumOfMoviesLongerThan( int minMinutes )
+    {
+        int numberOfMovies = 0;
+        for ( Movie movie : movies )
+        {
+            if ( movie.getMinutes() > minMinutes )
+            {
+                numberOfMovies += 1;
+            }
+        }
+        return numberOfMovies;
     }
 }

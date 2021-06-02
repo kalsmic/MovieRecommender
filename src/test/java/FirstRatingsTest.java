@@ -15,11 +15,12 @@ class FirstRatingsTest
 {
 
     FirstRatings firstRatingsShort;
-    FirstRatings firstRatingsFull;
     ArrayList<Movie> shortMovieCollection;
-    ArrayList<Movie> fullMovieCollection;
     ArrayList<Rater> shortMovieCollectionRatings;
-    ArrayList<Rater> fullMovieCollectionRatings;
+
+        FirstRatings firstRatingsFull;
+        ArrayList<Movie> fullMovieCollection;
+        ArrayList<Rater> fullMovieCollectionRatings;
 
     @BeforeAll
     void setUp() throws IOException
@@ -27,10 +28,11 @@ class FirstRatingsTest
         String shortCSV = "data/ratedmovies_short.csv";
         String fullCSV = "data/ratedmoviesfull.csv";
         firstRatingsShort = new FirstRatings();
-        firstRatingsFull = new FirstRatings();
         shortMovieCollection = firstRatingsShort.loadMovies( shortCSV );
-        fullMovieCollection = firstRatingsFull.loadMovies( fullCSV );
         shortMovieCollectionRatings = firstRatingsShort.loadRaters( "data/ratings_short.csv" );
+
+        firstRatingsFull = new FirstRatings();
+        fullMovieCollection = firstRatingsFull.loadMovies( fullCSV );
         fullMovieCollectionRatings = firstRatingsFull.loadRaters( "data/ratings.csv" );
     }
 
@@ -44,16 +46,9 @@ class FirstRatingsTest
     @Test
     public void testMaximumNumberOfMoviesDirectedByAnyDirector()
     {
+        assertEquals( 1, firstRatingsShort.maximumNumberOfMoviesByAnyDirector() );
         assertEquals( 23, firstRatingsFull.maximumNumberOfMoviesByAnyDirector() );
     }
-
-    //    @Test
-    //    public void testDirectorMovieCount(){
-    //        HashMap<String , Integer> movieDirectors = firstRatingsFull.getDirectorMoviesCount();
-    //        assertEquals( 23,movieDirectors.size() );
-    //
-    //
-    //    }
 
 
     @Test
@@ -65,7 +60,19 @@ class FirstRatingsTest
 
         numOfMovies = firstRatingsShort.getNumMoviesForGenre( genre );
         assertEquals( 1, numOfMovies );
+
     }
+
+    @Test
+    public void testGetNumOfMoviesLongerThan(){
+        int minMinutes = 150;
+        int numberOfMovies = firstRatingsShort.getNumOfMoviesLongerThan( minMinutes );
+        assertEquals( 2, numberOfMovies );
+
+        numberOfMovies = firstRatingsFull.getNumOfMoviesLongerThan( minMinutes );
+        assertEquals( 132, numberOfMovies );
+    }
+
     @Test
     public void testLoadRaters()
     {

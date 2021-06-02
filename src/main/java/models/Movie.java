@@ -4,8 +4,6 @@
 package models;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
 
 // An immutable passive data object (PDO) to represent item data
 public class Movie
@@ -13,7 +11,6 @@ public class Movie
     private final String id;
     private final String title;
     private final int year;
-    public static HashMap<String, HashSet<Movie>> allDirectors = new HashMap<>();
     ArrayList<String> directors;
     private ArrayList<String> genres;
 
@@ -56,7 +53,7 @@ public class Movie
         year = Integer.parseInt( aYear.trim() );
         setGenres( theGenres );
         directors = new ArrayList<>();
-        setAllDirectors( theDirectors );
+        setDirectors( theDirectors );
         country = aCountry;
         poster = aPoster;
         minutes = theMinutes;
@@ -96,6 +93,10 @@ public class Movie
         return title;
     }
 
+    public ArrayList<String> getDirectors()
+    {
+        return directors;
+    }
 
     /**
      * @return an integer representing the year in which this movie was published
@@ -105,14 +106,7 @@ public class Movie
         return year;
     }
 
-    /**
-     * @return one String of one or more directors of the movie separated by commas
-     */
-    public ArrayList<String> getAllDirectors()
-    {
-        ArrayList<String> theDirectors = new ArrayList<>( Movie.allDirectors.keySet() );
-        return theDirectors;
-    }
+
 
     /**
      * @return one String of one or more countries this film was made in, separated by commas
@@ -122,30 +116,12 @@ public class Movie
         return country;
     }
 
-    private void setAllDirectors( String directors )
+    private void setDirectors( String directors )
     {
-
-
         for ( String director : directors.split( "," ) )
         {
-            director = director.trim();
-            // check if director exists
-            if ( allDirectors.containsKey( director ) )
-            {
-                // add movie to directors movies
-
-                allDirectors.get( director ).add( this );
-            }
-            else
-            {
-                // add director and movie
-                HashSet<Movie> newMovie = new HashSet<>();
-                newMovie.add( this );
-                allDirectors.put( director, newMovie );
-            }
-            this.directors.add( director );
+            this.directors.add( director.trim() );
         }
-
     }
 
     /**
