@@ -10,13 +10,13 @@ public class Rating implements Comparable<Rating>
     private final double value;
 
     /**
-     * @param anItem is a String description of the item being rated (for this assignment you should use the IMDB ID of
+     * @param movieId is a String description of the item being rated (for this assignment you should use the IMDB ID of
      *               the movie being rated)
      * @param aValue is a double of the actual rating
      */
-    public Rating( String anItem, double aValue )
+    public Rating( String movieId, double aValue )
     {
-        movieId = anItem;
+        this.movieId = movieId;
         value = aValue;
     }
 
