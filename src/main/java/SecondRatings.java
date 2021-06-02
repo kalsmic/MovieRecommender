@@ -1,15 +1,15 @@
+import models.IRater;
 import models.Movie;
 import models.Rater;
 import models.Rating;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class SecondRatings
 {
     private ArrayList<Movie> myMovies;
-    private ArrayList<Rater> myRaters;
+    private ArrayList<IRater> myRaters;
     private ArrayList<Rating> movieRatings;
 
     public SecondRatings(String movieFile, String ratingsFile) throws IOException
@@ -48,7 +48,7 @@ public class SecondRatings
         double rating = 0.0;
         int numRaters = 0;
         int totalRating = 0;
-        for ( Rater rater : myRaters )
+        for ( IRater rater : myRaters )
         {
             if ( rater.getItemsRated().contains( movieId ) )
             {

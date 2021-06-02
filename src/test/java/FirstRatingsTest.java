@@ -1,3 +1,4 @@
+import models.IRater;
 import models.Movie;
 import models.Rater;
 import org.junit.jupiter.api.AfterEach;
@@ -24,11 +25,11 @@ class FirstRatingsTest
 
     FirstRatings firstRatingsShort;
     ArrayList<Movie> shortMovieCollection;
-    ArrayList<Rater> shortMovieCollectionRatings;
+    ArrayList<IRater> shortMovieCollectionRatings;
 
     FirstRatings firstRatingsFull;
     ArrayList<Movie> fullMovieCollection;
-    ArrayList<Rater> fullMovieCollectionRatings;
+    ArrayList<IRater> fullMovieCollectionRatings;
 
     @BeforeAll
     void setUp() throws IOException

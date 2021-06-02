@@ -1,3 +1,5 @@
+import models.EfficientRater;
+import models.IRater;
 import models.Movie;
 import models.Rater;
 import org.apache.commons.csv.CSVParser;
@@ -12,7 +14,7 @@ import java.util.List;
 public class FirstRatings
 {
     ArrayList<Movie> movies;
-    ArrayList<Rater> raters;
+    ArrayList<IRater> raters;
     HashMap<String, HashSet<Movie>> allDirectors;
 
 
@@ -20,9 +22,7 @@ public class FirstRatings
     {
         movies = new ArrayList<>();
         raters = new ArrayList<>();
-        allDirectors = new HashMap<>()
-        {
-        };
+        allDirectors = new HashMap<>();
 
     }
 
@@ -131,7 +131,7 @@ public class FirstRatings
      * @param fileName the CSV file containing the ratinds
      * @return an ArrayList of type Rater with all the rater data from the file
      */
-    public ArrayList<Rater> loadRaters( String fileName ) throws IOException
+    public ArrayList<IRater> loadRaters( String fileName ) throws IOException
     {
         CSVParser csvParser = (CSVParser) new FileHelper( fileName ).getCSVParser();
         for ( CSVRecord csvRecord : csvParser )
@@ -139,9 +139,9 @@ public class FirstRatings
             String raterId = csvRecord.get( "rater_id" );
             String movieId = csvRecord.get( "movie_id" );
             double rating = Double.parseDouble( csvRecord.get( "rating" ) );
-            Rater rater = null;
+            IRater rater = null;
             // look through the raters arrayList
-            for ( Rater curRater : raters )
+            for ( IRater curRater : raters )
             {
                 // Check if rater already exists
                 if ( curRater.getID().equals( raterId ) )
@@ -154,7 +154,7 @@ public class FirstRatings
             // Create new Rater object and  add it to the raters  ArrayList
             if ( rater == null )
             {
-                rater = new Rater( raterId );
+                rater = new EfficientRater( raterId );
                 raters.add( rater );
             }
 
@@ -174,7 +174,7 @@ public class FirstRatings
     {
         int numberOfRatings = 0;
 
-        for ( Rater rater : raters )
+        for ( IRater rater : raters )
         {
             if ( rater.getID().equals( raterId ) )
             {
@@ -193,7 +193,7 @@ public class FirstRatings
         int maximumNumberOfRatings = 0;
         HashMap<Integer, ArrayList<String>> ratingsNum = new HashMap<>();
         String mostRater = null;
-        for ( Rater rater : raters )
+        for ( IRater rater : raters )
         {
             int currRatings = rater.numRatings();
             if ( currRatings > maximumNumberOfRatings )
@@ -225,7 +225,7 @@ public class FirstRatings
         int numberOfRatings = 0;
         HashSet<String> ratedMovies = new HashSet<>();
 
-        for ( Rater rater : raters )
+        for ( IRater rater : raters )
         {
             if (! rater.getItemsRated().isEmpty() && !( rater.getRating( movieId ) == -1 ) )
             {

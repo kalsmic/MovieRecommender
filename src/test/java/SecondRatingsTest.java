@@ -1,4 +1,3 @@
-import models.Rater;
 import models.Rating;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
