@@ -6,7 +6,7 @@ package models;
 // An immutable passive data object (PDO) to represent the rating data
 public class Rating implements Comparable<Rating>
 {
-    private final String item;
+    private final String movieId;
     private final double value;
 
     /**
@@ -16,16 +16,16 @@ public class Rating implements Comparable<Rating>
      */
     public Rating( String anItem, double aValue )
     {
-        item = anItem;
+        movieId = anItem;
         value = aValue;
     }
 
     /**
      * @return item being rated
      */
-    public String getItem()
+    public String getMovieId()
     {
-        return item;
+        return movieId;
     }
 
     /**
@@ -41,7 +41,7 @@ public class Rating implements Comparable<Rating>
      */
     public String toString()
     {
-        return "[" + getItem() + ", " + getValue() + "]";
+        return "[" + getMovieId() + ", " + getValue() + "]";
     }
 
     /**
