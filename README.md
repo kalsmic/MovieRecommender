@@ -1,6 +1,6 @@
 # Movie Recommender
 
-[![Build Status](https://travis-ci.com/kalsmic/MovieRecommender.svg?branch=master)](https://travis-ci.com/kalsmic/MovieRecommender)
+[![Build Status](https://travis-ci.com/kalsmic/MovieRecommender.svg?branch=main)](https://travis-ci.com/kalsmic/MovieRecommender)
 
 A DIY Version of Netflix and Amazon Recommendation Engines
 
