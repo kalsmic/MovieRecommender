@@ -1,7 +1,7 @@
+import helpers.FileHelper;
 import models.EfficientRater;
 import models.IRater;
 import models.Movie;
-import models.Rater;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 
