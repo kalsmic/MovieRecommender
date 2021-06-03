@@ -12,6 +12,7 @@ public class EfficientRater implements IRater
     public EfficientRater( String id )
     {
         this.myID = id;
+        myRatings = new HashMap<>();
     }
 
 
