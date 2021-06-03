@@ -1,6 +1,6 @@
 import models.IRater;
 import models.Movie;
-import models.Rater;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -43,6 +43,19 @@ class FirstRatingsTest
         firstRatingsFull = new FirstRatings();
         fullMovieCollection = firstRatingsFull.loadMovies( fullCSV );
         fullMovieCollectionRatings = firstRatingsFull.loadRaters( "data/ratings.csv" );
+    }
+
+    @AfterAll
+    public void tearDown()
+    {
+        firstRatingsShort = null;
+        firstRatingsFull = null;
+        shortMovieCollection = null;
+        fullMovieCollection = null;
+        shortMovieCollectionRatings = null;
+        fullMovieCollectionRatings = null;
+
+
     }
 
     @BeforeEach
@@ -140,12 +153,12 @@ class FirstRatingsTest
     {
         String movieId = "1798709";
         int numberOfRatings = firstRatingsShort.getNumOfRatingsForMovie( movieId );
-        assertEquals( 4, numberOfRatings );
+        assertEquals( 5, numberOfRatings );
         assertTrue( outContent.toString().contains( "4 unique rated movies" ) );
 
-        //
+
         numberOfRatings = firstRatingsFull.getNumOfRatingsForMovie( movieId );
-        assertEquals( 38, numberOfRatings );
+        assertEquals( 1048, numberOfRatings );
         assertTrue( outContent.toString().contains( "3143 unique rated movies" ) );
     }
 
