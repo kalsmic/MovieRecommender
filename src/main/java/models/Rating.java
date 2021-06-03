@@ -6,26 +6,26 @@ package models;
 // An immutable passive data object (PDO) to represent the rating data
 public class Rating implements Comparable<Rating>
 {
-    private final String movieId;
+    private final String itemId;
     private final double value;
 
     /**
-     * @param movieId is a String description of the item being rated (for this assignment you should use the IMDB ID of
-     *               the movie being rated)
+     * @param itemId is a String description of the item being rated (for this assignment you should use the IMDB ID of
+     *               the item being rated)
      * @param aValue is a double of the actual rating
      */
-    public Rating( String movieId, double aValue )
+    public Rating( String itemId, double aValue )
     {
-        this.movieId = movieId;
+        this.itemId = itemId;
         value = aValue;
     }
 
     /**
      * @return item being rated
      */
-    public String getMovieId()
+    public String getItemId()
     {
-        return movieId;
+        return itemId;
     }
 
     /**
@@ -41,15 +41,15 @@ public class Rating implements Comparable<Rating>
      */
     public String toString()
     {
-        return "[" + getMovieId() + ", " + getValue() + "]";
+        return "[" + getItemId() + ", " + getValue() + "]";
     }
 
     /**
      * This method compares this rating with another rating
      *
-     * @param other is the other movie rating
-     * @return -1 if other current movie has higher rating, 0 if the movies have an equal rating otherwise return 1 if
-     * other movie has higher rating
+     * @param other is the other item rating
+     * @return -1 if other current item has higher rating, 0 if the items have an equal rating otherwise return 1 if
+     * other item has higher rating
      */
     public int compareTo( Rating other )
     {
