@@ -1,3 +1,5 @@
+package helpers;
+
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 
@@ -23,8 +25,7 @@ public class FileHelper
         ClassLoader classLoader = getClass().getClassLoader();
         File file = new File( Objects.requireNonNull( classLoader.getResource( fileName ) ).getFile() );
         Reader reader = new BufferedReader( new FileReader( file ) );
-        return new CSVParser( reader,
-                CSVFormat.DEFAULT.withFirstRecordAsHeader().withIgnoreHeaderCase().withTrim() );
+        return new CSVParser( reader, CSVFormat.DEFAULT.withFirstRecordAsHeader().withIgnoreHeaderCase().withTrim() );
 
     }
 }
