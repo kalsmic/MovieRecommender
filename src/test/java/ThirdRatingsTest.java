@@ -1,7 +1,12 @@
 import models.MovieDatabase;
 import models.Rating;
+import models.filters.AllFilters;
+import models.filters.DirectorsFilter;
+import models.filters.GenreFilter;
 import models.filters.IFilter;
+import models.filters.MinutesFilter;
 import models.filters.TrueFilter;
+import models.filters.YearAfterFilter;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -21,8 +26,10 @@ class ThirdRatingsTest
     @BeforeAll
     public void setUp() throws IOException
     {
-        thirdRatings = new ThirdRatings( "data/ratings_short.csv" );
-        MovieDatabase.initialize( "data/ratedmovies_short.csv" );
+
+        MovieDatabase.initialize( "data/ratedmoviesfull.csv" );
+        thirdRatings = new ThirdRatings( "data/ratings.csv" );
+
     }
 
     @AfterAll
@@ -34,18 +41,78 @@ class ThirdRatingsTest
     @Test
     public void getRaterSize()
     {
-        assertEquals( 5, thirdRatings.getRaterSize() );
+        assertEquals( 1048, thirdRatings.getRaterSize() );
     }
 
     @Test
     public void getAverageRatings()
     {
         IFilter filter = new TrueFilter();
-        assertEquals( 0, thirdRatings.getAverageRatings( filter, 5 ).size() );
+        assertEquals( 463, thirdRatings.getAverageRatings( filter, 5 ).size() );
         ArrayList<Rating> ratings = thirdRatings.getAverageRatings( filter, 4 );
-        assertEquals( 2, ratings.size() );
-        assertEquals( 8.25, ratings.get( 0 ).getValue() );
-        assertEquals( 9.0, ratings.get( 1 ).getValue() );
+        assertEquals( 579, ratings.size() );
+        assertEquals( 2.8, ratings.get( 0 ).getValue() );
+        assertEquals( 3.125, ratings.get( 1 ).getValue() );
 
     }
+
+    @Test
+    public void testAverageRatings() throws IOException
+    {
+        assertEquals( 29, thirdRatings.getAverageRatings( new TrueFilter(), 35 ).size() );
+    }
+
+    @Test
+    public void testAverageRatingsByYearAfter() throws IOException
+    {
+        IFilter filter = new YearAfterFilter( 2000 );
+        assertEquals( 88, thirdRatings.getAverageRatings( filter, 20 ).size() );
+    }
+
+    @Test
+    public void testAverageRatingsByGenre() throws IOException
+    {
+        IFilter filter = new GenreFilter( "Comedy" );
+        assertEquals( 19, thirdRatings.getAverageRatings( filter, 20 ).size() );
+    }
+
+    @Test
+    public void testAverageRatingsByMinutes() throws IOException
+    {
+        IFilter filter = new MinutesFilter( 105, 135 );
+        assertEquals( 231, thirdRatings.getAverageRatings( filter, 5 ).size() );
+    }
+
+    @Test
+    public void testAverageRatingsByDirector() throws IOException
+    {
+        IFilter filter = new DirectorsFilter(
+                "Clint Eastwood,Joel Coen,Martin Scorsese,Roman Polanski,Nora Ephron,Ridley Scott,Sydney Pollack" );
+        assertEquals( 22, thirdRatings.getAverageRatings( filter, 4 ).size() );
+    }
+
+    @Test
+    public void testAverageRatingsByYearAfterAndGenre() throws IOException
+    {
+        IFilter yearAfter = new YearAfterFilter( 1990 );
+        IFilter genre = new GenreFilter( "Drama" );
+        AllFilters filter = new AllFilters();
+        filter.addFilters( yearAfter );
+        filter.addFilters( genre );
+        assertEquals( 132, thirdRatings.getAverageRatings( filter, 8 ).size() );
+    }
+
+    @Test
+    public void testAverageRatingsByDirectorsAndMinutes() throws IOException
+    {
+        IFilter minutes = new MinutesFilter( 90, 180 );
+        IFilter directors = new DirectorsFilter(
+                "Clint Eastwood,Joel Coen,Tim Burton,Ron Howard,Nora Ephron,Sydney Pollack" );
+        AllFilters filter = new AllFilters();
+        filter.addFilters( minutes );
+        filter.addFilters( directors );
+
+        assertEquals( 15, thirdRatings.getAverageRatings( filter, 3 ).size() );
+    }
+
 }
