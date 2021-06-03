@@ -4,7 +4,6 @@
 package models;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class Rater implements IRater
 {
@@ -22,26 +21,26 @@ public class Rater implements IRater
     }
 
     /**
-     * @param movieId is the reference to the movie
-     * @param rating  is a double representing the movie rating
+     * @param itemId is the reference to the item
+     * @param rating is a double representing the item rating
      */
     @Override
-    public void addRating( String movieId, double rating )
+    public void addRating( String itemId, double rating )
     {
-        myRatings.add( new Rating( movieId, rating ) );
+        myRatings.add( new Rating( itemId, rating ) );
     }
 
     /**
      *
-     * @param movieId the movie reference
-     * @return true is movie has a rating otherwise returns false
+     * @param itemId the item reference
+     * @return true is item has a rating otherwise returns false
      */
     @Override
-    public boolean hasRating( String movieId )
+    public boolean hasRating( String itemId )
     {
         for ( Rating myRating : myRatings )
         {
-            if ( myRating.getMovieId().equals( movieId ) )
+            if ( myRating.getItemId().equals( itemId ) )
             {
                 return true;
             }
@@ -62,15 +61,15 @@ public class Rater implements IRater
 
     /**
      *
-     * @param movieId is the movie Id reference
-     * @return the double rating of this movieId if it is in myRatings. Otherwise this method returns -1
+     * @param itemId is the item Id reference
+     * @return the double rating of this itemId if it is in myRatings. Otherwise this method returns -1
      */
     @Override
-    public double getRating( String movieId )
+    public double getRating( String itemId )
     {
         for ( Rating myRating : myRatings )
         {
-            if ( myRating.getMovieId().equals( movieId ) )
+            if ( myRating.getItemId().equals( itemId ) )
             {
                 return myRating.getValue();
             }
@@ -99,7 +98,7 @@ public class Rater implements IRater
         ArrayList<String> list = new ArrayList<>();
         for ( Rating myRating : myRatings )
         {
-            list.add( myRating.getMovieId() );
+            list.add( myRating.getItemId() );
         }
 
         return list;
