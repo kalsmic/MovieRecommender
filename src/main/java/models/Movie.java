@@ -64,7 +64,8 @@ public class Movie
      */
     public String getGenres()
     {
-        return genres.toString();
+
+        return genres.toString().replace( "[","" ).replace( "]","" );
     }
 
     private void setGenres( String genres )
