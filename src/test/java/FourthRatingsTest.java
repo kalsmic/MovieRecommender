@@ -121,7 +121,7 @@ class FourthRatingsTest
     }
 
     @ParameterizedTest( name = "{index}=>raterId={0}, minimalRaters={1},numSimilarRaters={2},title={3}" )
-    @CsvSource( {"65,5,20,The Fault in Our Stars"} )
+    @CsvSource( {"65,5,20,The Fault in Our Stars", "337,3,10,Frozen", "71,5,20,About Time"} )
     public void testSimilarRatings( String raterId, int minimalRaters, int numSimilarRaters, String title )
     {
         ArrayList<Rating> ratings = fourthRatings.getSimilarRatings( raterId, numSimilarRaters, minimalRaters );
@@ -129,7 +129,7 @@ class FourthRatingsTest
     }
 
     @ParameterizedTest( name = "{index}=>raterId={0}, minimalRaters={1},numSimilarRaters={2},genre={3},title={4}" )
-    @CsvSource( {"65,5,20,Action,Rush"} )
+    @CsvSource( {"65,5,20,Action,Rush", "964,5,20,Mystery,Gone Girl"} )
     public void testSimilarRatingsByGenre( String raterId, int minimalRaters, int numSimilarRaters, String genre, String title )
     {
         IFilter filter = new GenreFilter( genre );
@@ -140,7 +140,7 @@ class FourthRatingsTest
     }
 
     @ParameterizedTest( name = "{index}=>raterId={0}, minimalRaters={1},numSimilarRaters={2},directors={3},title={4}" )
-    @CsvSource( value = {"1034:3:10:Clint Eastwood,Sydney Pollack,David Cronenberg,Oliver Stone:Unforgiven"},
+    @CsvSource( value = {"1034:3:10:Clint Eastwood,Sydney Pollack,David Cronenberg,Oliver Stone:Unforgiven", "120:2:10:Clint Eastwood,J.J. Abrams,Alfred Hitchcock,Sydney Pollack,David Cronenberg,Oliver Stone,Mike Leigh:Star Trek",},
                 delimiter = ':' )
     public void testSimilarRatingsByDirector( String raterId, int minimalRaters, int numSimilarRaters, String directors, String title )
     {
@@ -152,7 +152,7 @@ class FourthRatingsTest
     }
 
     @ParameterizedTest( name = "{index}=>raterId={0}, minimalRaters={1},numSimilarRaters={2},genre={3},minMinutes={4},maxMinutes={5},title={6}" )
-    @CsvSource( {"65,5,10,Adventure,100,200,Interstellar"} )
+    @CsvSource( {"65,5,10,Adventure,100,200,Interstellar", "168,3,10,Drama,80,160,The Imitation Game"} )
     public void testSimilarRatingsByGenreAndMinutes( String raterId, int minimalRaters, int numSimilarRaters, String genre, int minMinutes, int maxMinutes, String title )
     {
         IFilter genreFilter = new GenreFilter( genre );
@@ -168,7 +168,7 @@ class FourthRatingsTest
     }
 
     @ParameterizedTest( name = "{index}=>raterId={0}, minimalRaters={1},numSimilarRaters={2},genre={3},minMinutes={4},maxMinutes={5},title={6}" )
-    @CsvSource( {"65,5,10,2000,80,100,The Grand Budapest Hotel"} )
+    @CsvSource( {"65,5,10,2000,80,100,The Grand Budapest Hotel", "314,5,10,1975,70,200,Nightcrawler"} )
     public void testSimilarRatingsByYearAfterAndMinutes( String raterId, int minimalRaters, int numSimilarRaters, int year, int minMinutes, int maxMinutes, String title )
     {
         IFilter yearAfterFilter = new YearAfterFilter( year );
